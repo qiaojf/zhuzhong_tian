@@ -1,0 +1,46 @@
+name: Publish v2 to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '竹中工務店_第1回打合せ_Terabox提案資料_v2.html'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare the v2 presentation only
+        env:
+          V2_HTML: '竹中工務店_第1回打合せ_Terabox提案資料_v2.html'
+        run: |
+          mkdir -p _site
+          cp -- "$V2_HTML" _site/index.html
+          touch _site/.nojekyll
+      - name: Upload the website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
