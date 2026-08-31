@@ -1,10 +1,10 @@
-name: Publish v2 to GitHub Pages
+name: Publish v3 to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
-      - '竹中工務店_第1回打合せ_Terabox提案資料_v2.html'
+      - '竹中工務店_第1回打合せ_Terabox提案資料_v3.html'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -30,12 +30,12 @@ jobs:
         uses: actions/checkout@v6
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Prepare the v2 presentation only
+      - name: Prepare the v3 presentation only
         env:
-          V2_HTML: '竹中工務店_第1回打合せ_Terabox提案資料_v2.html'
+          V3_HTML: '竹中工務店_第1回打合せ_Terabox提案資料_v3.html'
         run: |
           mkdir -p _site
-          cp -- "$V2_HTML" _site/index.html
+          cp -- "$V3_HTML" _site/index.html
           touch _site/.nojekyll
       - name: Upload the website
         uses: actions/upload-pages-artifact@v4
